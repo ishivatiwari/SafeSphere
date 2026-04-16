@@ -112,8 +112,8 @@ POST /analyze
 ### 1. Clone the Repository
 
 ```
-git clone https://github.com/YOUR_USERNAME/safesphere-api.git
-cd safesphere-api
+git clone https://github.com/YOUR_USERNAME/safesphere.git
+cd safesphere
 ```
 
 ### 2. Install Dependencies
@@ -137,7 +137,7 @@ python app.py
 ### 5. Deploy (Cloud Run)
 
 ```
-gcloud run deploy safesphere-api --source .
+gcloud run deploy safesphere --source .
 ```
 
 ---
@@ -183,7 +183,7 @@ It uses simulated data but is designed for real-world scalability.
 
 ## 👨‍💻 Author
 
-Developed by Shiva
+Developed by Shiva Tiwari
 
 ---
 
