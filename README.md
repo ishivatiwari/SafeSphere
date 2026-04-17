@@ -2,32 +2,31 @@
 
 ### Predictive Crowd Intelligence System for Large-Scale Events
 
-SafeSphere AI is a real-time AI-powered system designed to **prevent stampedes, optimize crowd movement, and enhance safety** at large-scale events like the Kumbh Mela.
-
-It leverages intelligent decision-making to analyze crowd density, detect risks, and provide actionable insights for authorities and attendees.
+SafeSphere AI is an AI-powered system designed to **predict, prevent, and manage crowd risks** in large-scale events like the Kumbh Mela.
+It enables real-time decision-making to avoid stampedes, optimize crowd movement, and improve public safety.
 
 ---
 
 ## 🌍 Problem Statement
 
-Managing massive gatherings is extremely challenging due to:
+Large gatherings often suffer from:
 
-* Unpredictable crowd surges
-* High waiting times and congestion
-* Lack of real-time coordination
-* Risk of stampedes and safety hazards
+* Sudden crowd surges
+* Poor real-time visibility
+* Lack of predictive intelligence
+* High risk of stampedes
 
-SafeSphere AI addresses these issues using **predictive intelligence and real-time analysis**.
+Traditional systems are **reactive**, responding only after congestion occurs.
 
 ---
 
-## 💡 Solution Overview
+## 💡 Solution
 
-SafeSphere AI acts as a **central AI command system** that:
+SafeSphere AI introduces a **predictive AI command system** that:
 
 * Monitors crowd density across zones
 * Detects high-risk and critical areas
-* Predicts potential stampede situations
+* Predicts crowd buildup trends
 * Suggests dynamic rerouting strategies
 * Generates real-time alerts
 
@@ -35,32 +34,56 @@ SafeSphere AI acts as a **central AI command system** that:
 
 ## 🧠 Key Features
 
-* 📊 **Crowd Density Analysis**
-* ⚠️ **Risk Detection (High / Critical / Stampede Risk)**
-* 🔮 **Predictive Intelligence (Trend Analysis)**
-* 🔀 **Smart Crowd Rerouting**
-* 📢 **Real-Time Alerts & Recommendations**
-* 🧩 **Structured JSON Output for Integration**
+* 📊 Crowd Density Analysis
+* ⚠️ Risk Detection (High / Critical / Stampede Risk)
+* 🔮 Predictive Intelligence (Trend Forecasting)
+* 🔀 Smart Crowd Rerouting
+* 📢 Real-Time Alerts
+* 🧩 Structured JSON API for easy integration
 
 ---
 
-## 🏗️ Architecture (Prototype)
+## 🏗️ System Architecture
 
-```
-Simulated Crowd Data → AI Agent (Antigravity + Gemini) → Cloud Run API → JSON Response
+```text
+Simulated Data → AI Agent (Antigravity + Gemini) → Cloud Run API → JSON Response
 ```
 
-> ⚡ Currently uses simulated data, but designed to integrate with CCTV, IoT sensors, and telecom signals.
+### 🔗 Google Cloud Integration
+
+* Deployed on **Google Cloud Run** (serverless, scalable)
+* Uses **Gemini API** for AI decision-making
+* Designed for integration with:
+
+  * Google Firestore (real-time data storage)
+  * Pub/Sub (event-driven updates)
+  * Cloud Logging (monitoring & debugging)
 
 ---
 
-## 🚀 Tech Stack
+## ⚙️ Efficiency & Performance
 
-* **AI Agent Framework:** Antigravity
-* **LLM:** Gemini
-* **Backend:** Python (FastAPI / Flask)
-* **Deployment:** Google Cloud Run
-* **API Communication:** REST
+* Lightweight processing for **low-latency responses**
+* Optimized decision logic to minimize compute overhead
+* Designed for **real-time scalability** using serverless architecture
+* Supports future enhancements like caching and batch processing
+
+---
+
+## 🔐 Security
+
+* API keys managed via **environment variables**
+* Secure deployment using Google Cloud infrastructure
+* Designed with **controlled access patterns**
+
+---
+
+## ♿ Accessibility
+
+* Simple and intuitive REST API
+* Structured JSON responses for easy consumption
+* Clear error handling and validation
+* Designed for integration with dashboards and assistive systems
 
 ---
 
@@ -72,7 +95,7 @@ Simulated Crowd Data → AI Agent (Antigravity + Gemini) → Cloud Run API → J
 POST /analyze
 ```
 
-### Request Body
+### Request Example
 
 ```json
 {
@@ -83,7 +106,7 @@ POST /analyze
 }
 ```
 
-### Sample Response
+### Response Example
 
 ```json
 {
@@ -96,8 +119,7 @@ POST /analyze
     }
   ],
   "actions": [
-    "Redirect crowd from Zone B2 to Zone C1",
-    "Open additional exit gates in Zone B2"
+    "Redirect crowd from Zone B2 to Zone C1"
   ],
   "alerts": [
     "Avoid Zone B2 due to heavy congestion"
@@ -107,9 +129,31 @@ POST /analyze
 
 ---
 
+## 🧪 Testing
+
+Basic test coverage is implemented to validate core functionality.
+
+### Example Test Case
+
+```python
+def test_analyze_endpoint():
+    response = client.post("/analyze", json={
+        "zones": [{"zone_id": "A1", "density": 90, "movement_speed": 0.5}]
+    })
+    assert response.status_code == 200
+```
+
+### Test Coverage Includes:
+
+* ✅ Normal scenarios
+* ⚠️ High-risk scenarios
+* ❗ Edge cases (empty input / invalid data)
+
+---
+
 ## 🛠️ Setup & Deployment
 
-### 1. Clone the Repository
+### 1. Clone Repository
 
 ```
 git clone https://github.com/YOUR_USERNAME/safesphere.git
@@ -122,7 +166,7 @@ cd safesphere
 pip install -r requirements.txt
 ```
 
-### 3. Set Environment Variables
+### 3. Configure Environment
 
 ```
 GEMINI_API_KEY=your_api_key_here
@@ -134,18 +178,11 @@ GEMINI_API_KEY=your_api_key_here
 python app.py
 ```
 
-### 5. Deploy (Cloud Run)
+### 5. Deploy to Cloud Run
 
 ```
-gcloud run deploy safesphere --source .
+gcloud run deploy safesphere-api --source .
 ```
-
----
-
-## 🔐 Security Note
-
-* API keys are stored using environment variables
-* In production, use **Secret Manager** for secure handling
 
 ---
 
@@ -154,30 +191,23 @@ gcloud run deploy safesphere --source .
 * Religious gatherings (e.g., Kumbh Mela)
 * Sports stadiums
 * Concerts and festivals
-* Public events and rallies
+* Smart city crowd management
 
 ---
 
 ## 📈 Future Enhancements
 
 * Real-time CCTV integration
-* IoT sensor-based crowd tracking
+* IoT sensor-based tracking
 * Live dashboard with heatmaps
-* Emergency response automation
+* Automated emergency response system
 * Multi-agent orchestration
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ---
 
 ## 📌 Disclaimer
 
-This is a prototype system built for demonstration purposes.
-It uses simulated data but is designed for real-world scalability.
+This is a prototype system using simulated data, designed for demonstration and scalability.
 
 ---
 
@@ -187,6 +217,6 @@ Developed by Shiva Tiwari
 
 ---
 
-## ⭐ If you like this project
+## ⭐ Support
 
-Give it a ⭐ on GitHub and share your feedback!
+If you find this project useful, consider giving it a ⭐ on GitHub!
