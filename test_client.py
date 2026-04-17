@@ -2,8 +2,7 @@ import requests
 import json
 
 # Define the endpoint
-URL = "https://safesphere-api-321393039960.us-central1.run.app/analyze"
-
+URL = "Agent_URL"
 # Sample data provided in the prompt
 data = [
   {"zone_id": "A1", "density": 85, "movement_speed": 1.2},
