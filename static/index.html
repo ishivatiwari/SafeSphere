@@ -3,60 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSphere | Crowd Management</title>
+    <meta name="description" content="SafeSphere: AI-powered real-time crowd safety dashboard for monitoring zone density, predicting stampede risks, and coordinating emergency response at large events.">
+    <title>SafeSphere | Real-Time Crowd Safety AI</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-effects"></div>
-    <main class="dashboard">
-        <header>
+    <!-- Skip navigation for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="background-effects" aria-hidden="true"></div>
+
+    <main class="dashboard" id="main-content" role="main">
+        <header role="banner">
             <h1>SafeSphere</h1>
             <p>Real-Time Crowd Safety AI Dashboard</p>
         </header>
 
         <div class="grid-layout">
-            <section class="card input-section">
-                <h2>Add Zone Data</h2>
-                <form id="zoneForm">
+            <!-- ── Input Panel ──────────────────────────────────────────── -->
+            <section class="card input-section" aria-labelledby="add-zone-heading">
+                <h2 id="add-zone-heading">Add Zone Data</h2>
+
+                <form id="zoneForm" novalidate aria-describedby="form-instructions">
+                    <p id="form-instructions" class="sr-only">
+                        Fill in zone details and click Add Zone. Add multiple zones before clicking Analyse Safety.
+                    </p>
+
                     <div class="input-group">
-                        <label>Zone ID</label>
-                        <input type="text" id="zoneId" placeholder="e.g. A1" required>
+                        <label for="zoneId">Zone ID</label>
+                        <input
+                            type="text"
+                            id="zoneId"
+                            name="zone_id"
+                            placeholder="e.g. A1"
+                            required
+                            aria-required="true"
+                            aria-describedby="zoneId-hint"
+                            maxlength="20"
+                            autocomplete="off"
+                        >
+                        <span id="zoneId-hint" class="field-hint">Short identifier — e.g. A1, Gate-2 (max 20 chars)</span>
                     </div>
+
                     <div class="input-group">
-                        <label>Density (%)</label>
-                        <input type="number" id="density" placeholder="85" max="200" required>
+                        <label for="density">Density (%)</label>
+                        <input
+                            type="number"
+                            id="density"
+                            name="density"
+                            placeholder="85"
+                            min="0"
+                            max="200"
+                            required
+                            aria-required="true"
+                            aria-describedby="density-hint"
+                        >
+                        <span id="density-hint" class="field-hint">Crowd density, between 0 and 200</span>
                     </div>
+
                     <div class="input-group">
-                        <label>Movement Speed (m/s)</label>
-                        <input type="number" step="0.1" id="speed" placeholder="1.2" required>
+                        <label for="speed">Movement Speed (m/s)</label>
+                        <input
+                            type="number"
+                            step="0.1"
+                            id="speed"
+                            name="speed"
+                            placeholder="1.2"
+                            min="0"
+                            required
+                            aria-required="true"
+                            aria-describedby="speed-hint"
+                        >
+                        <span id="speed-hint" class="field-hint">Average movement speed in metres per second</span>
                     </div>
-                    <button type="submit" id="addZoneBtn">Add Zone</button>
-                    <button type="button" id="analyzeBtn" class="analyze-btn">Analyze Safety</button>
+
+                    <!-- Inline error region announced to screen readers -->
+                    <div
+                        id="form-error"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                        class="form-error"
+                        style="display:none;"
+                    ></div>
+
+                    <div class="button-row">
+                        <button
+                            type="submit"
+                            id="addZoneBtn"
+                            aria-label="Add this zone to the analysis queue"
+                        >
+                            Add Zone
+                        </button>
+                        <button
+                            type="button"
+                            id="analyzeBtn"
+                            class="analyze-btn"
+                            aria-label="Analyse all queued zones for crowd safety risks"
+                        >
+                            Analyze Safety
+                        </button>
+                    </div>
                 </form>
-                
-                <div id="addedZones" class="zone-list-preview">
-                    <!-- Preview of zones before analyzing -->
-                </div>
+
+                <!-- Queued zones list -->
+                <div
+                    id="addedZones"
+                    class="zone-list-preview"
+                    role="list"
+                    aria-label="Zones queued for analysis"
+                    aria-live="polite"
+                    aria-relevant="additions"
+                ></div>
             </section>
 
-            <section class="results-section">
-                <div class="alert-banner" id="alertBanner" style="display: none;"></div>
-                
-                <div class="card actions-list" id="actionsList" style="display: none; margin-bottom: 1.5rem;">
-                    <h3 style="margin-top: 0; color: var(--secondary);">Suggested Actions</h3>
+            <!-- ── Results Panel ────────────────────────────────────────── -->
+            <section class="results-section" aria-labelledby="results-heading">
+                <h2 id="results-heading" class="sr-only">Analysis Results</h2>
+
+                <!-- Critical alerts — assertive so screen readers interrupt -->
+                <div
+                    id="alertBanner"
+                    role="alert"
+                    aria-live="assertive"
+                    aria-atomic="true"
+                    class="alert-banner"
+                    style="display: none;"
+                ></div>
+
+                <!-- Suggested actions -->
+                <div
+                    class="card actions-list"
+                    id="actionsList"
+                    style="display: none; margin-bottom: 1.5rem;"
+                    aria-labelledby="actions-heading"
+                >
+                    <h3 id="actions-heading" style="margin-top: 0; color: var(--secondary);">Suggested Actions</h3>
                     <ul id="actionsContainer" style="margin: 0; padding-left: 1.2rem;"></ul>
                 </div>
 
-                <div class="status-grid" id="statusGrid">
-                    <!-- Zone Cards will dynamically spawn here -->
-                    <div class="empty-state card">
-                        <p style="text-align: center; color: var(--text-main);">No zones analyzed yet. Add data and click Analyze.</p>
+                <!-- Zone status cards — polite announcements on updates -->
+                <div
+                    class="status-grid"
+                    id="statusGrid"
+                    role="region"
+                    aria-live="polite"
+                    aria-label="Zone status cards"
+                    aria-atomic="false"
+                >
+                    <div class="empty-state card" role="status">
+                        <p style="text-align: center; color: var(--text-main);">
+                            No zones analysed yet. Add data and click Analyse.
+                        </p>
                     </div>
                 </div>
             </section>
         </div>
     </main>
+
     <script src="/static/script.js"></script>
 </body>
 </html>

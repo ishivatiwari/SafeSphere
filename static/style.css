@@ -150,3 +150,92 @@ button:hover {
 
 .zone-list-preview { margin-top: 1rem; font-size: 0.85rem; max-height: 200px; overflow-y: auto;}
 .preview-item { background: rgba(0,0,0,0.5); padding: 0.8rem; border-radius: 6px; margin-bottom: 0.5rem; border-left: 3px solid var(--secondary);}
+
+/* ── Accessibility ─────────────────────────────────────────────────────────── */
+
+/* Skip navigation link — visible only on focus */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 9999;
+    background: var(--secondary);
+    color: var(--bg);
+    padding: 0.6rem 1.2rem;
+    border-radius: 0 0 8px 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--secondary);
+    outline-offset: 2px;
+}
+
+/* Screen-reader-only utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* High-contrast keyboard focus rings (WCAG 2.4.11) */
+:focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Override the existing outline:none on inputs — keep glow AND ring */
+input:focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 2px;
+    box-shadow: 0 0 10px var(--primary-glow);
+    border-color: var(--secondary);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--secondary);
+    outline-offset: 3px;
+}
+
+/* Field hint text below inputs */
+.field-hint {
+    font-size: 0.78rem;
+    color: rgba(197, 198, 199, 0.65);
+    line-height: 1.4;
+}
+
+/* Inline form error (replaces alert()) */
+.form-error {
+    background: rgba(255, 76, 76, 0.12);
+    border: 1px solid var(--danger);
+    color: #ffaaaa;
+    padding: 0.65rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Side-by-side Add Zone / Analyse buttons */
+.button-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+.button-row button {
+    flex: 1;
+    margin-bottom: 0;
+}
+.button-row .analyze-btn {
+    margin-top: 0;
+}
+
